@@ -1,0 +1,367 @@
+#MOBY run now with 6th detector and higher counts
+
+
+s:Ge/World/Material = "Air"
+sv:Ph/Default/Modules = 1 "g4em-standard_opt3" 
+b:Ph/ListProcesses = "True"
+
+#change beam position
+s:Ge/BeamPosition/Parent   = "World"
+s:Ge/BeamPosition/Type     = "Group"
+d:Ge/BeamPosition/TransX   = 0 cm
+d:Ge/BeamPosition/TransY   = 0 cm
+
+#Define high Gold
+b:Ma/kidney/BuildFromMaterials = "True"
+sv:Ma/kidney/Components = 2 "G4_Au" "G4_TISSUE_SOFT_ICRP"
+uv:Ma/kidney/Fractions = 2 0.04 0.96
+d:Ma/kidney/Density = 1.039 g/cm3 
+
+#Define medium gold
+b:Ma/tumor/BuildFromMaterials = "True"
+sv:Ma/tumor/Components = 2 "G4_Au" "G4_TISSUE_SOFT_ICRP"
+uv:Ma/tumor/Fractions = 2 0.0075 0.9925
+d:Ma/tumor/Density = 1.007 g/cm3 
+
+#Define medium gold
+b:Ma/liver/BuildFromMaterials = "True"
+sv:Ma/liver/Components = 2 "G4_Au" "G4_TISSUE_SOFT_ICRP"
+uv:Ma/liver/Fractions = 2 0.0012 0.9988
+d:Ma/liver/Density = 1.001 g/cm3 
+
+#import mouse phantom
+s:Ge/Cube_phantom/Type		= "TsImageCube"
+s:Ge/Cube_phantom/Parent   = "World"
+s:Ge/Cube_phantom/DataType  = “SHORT” #, “INT” or “FLOAT" 
+s:Ge/Cube_phantom/InputFile		= "moby_flip.bin"
+s:Ge/Cube_phantom/ImagingToMaterialConverter = "MaterialTagNumber"
+iv:Ge/Cube_phantom/MaterialTagNumbers = 13 1 2 3 4 5 6 7 8 9 10 11 12 13
+sv:Ge/Cube_phantom/MaterialNames = 13 "Air" "Air" "G4_TISSUE_SOFT_ICRP" "G4_TISSUE_SOFT_ICRP" "G4_MUSCLE_SKELETAL_ICRP" "G4_BRAIN_ICRP" "liver" "G4_ADIPOSE_TISSUE_ICRP" "tumor" "G4_BONE_CORTICAL_ICRP"  "G4_BONE_CORTICAL_ICRP" "kidney" "G4_BONE_CORTICAL_ICRP" 
+i:Ge/Cube_phantom/NumberOfVoxelsX  = 256
+i:Ge/Cube_phantom/NumberOfVoxelsY  = 256
+i:Ge/Cube_phantom/NumberOfVoxelsZ = 865
+d:Ge/Cube_phantom/VoxelSizeX       = .125 mm
+d:Ge/Cube_phantom/VoxelSizeY       = .125 mm
+d:Ge/Cube_phantom/VoxelSizeZ       = .125 mm
+
+#These materials above correspond to: 1) Air, 2) Air in intestines, 3) Pancreas 4) Intestine wall, 5) muscle, body, stomach, 6) Brain, 7) Liver with gold, 8)bone marrow 9)spleen, lung, heart, and tumor with gold, 10) spine bone, 11) skull, 12) kidneys with gold, 13) skeletal bone
+
+
+#translate phantom with time 
+s:Tf/phantom_Ytranslate/Function = "Step"
+dv:Tf/phantom_Ytranslate/Times = 28 3.1 6.2 9.3 12.4 15.5 18.6 21.7 24.8 27.9 31 34.1 37.2 40.3 43.4 46.5 49.6 52.7 55.8 58.9 62 65.1 68.2 71.3 74.4 77.5 80.6 83.7 86.8 s
+dv:Tf/phantom_Ytranslate/Values = 28 -1.2 -1.1 -1.0 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 cm
+
+s:Tf/phantom_Xtranslate/Function = "Step"
+dv:Tf/phantom_Xtranslate/Times = 31 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0 3.1 s
+dv:Tf/phantom_Xtranslate/Values = 31 1.5 1.4 1.3 1.2 1.1 1.0 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0 -0.1 -0.2 -0.3 -0.4 -0.5 -0.6 -0.7 -0.8 -0.9 -1.0 -1.1 -1.2 -1.3 -1.4 -1.5 cm
+d:Tf/TimelineEnd               = 86.8 s
+i:Tf/NumberOfSequentialTimes   = 868
+
+d:Ge/Cube_phantom/TransX = 0. cm + Tf/phantom_Xtranslate/Value
+d:Ge/Cube_phantom/TransY = 0. cm + Tf/phantom_Ytranslate/Value
+d:Ge/Cube_phantom/TransZ = 0 cm
+
+#NW DETECTOR
+s:Ge/Detector/Type     = "TsBox"
+s:Ge/Detector/Material = "Vacuum" #Counting photons to cross a plane, so material irrelevant
+s:Ge/Detector/Parent   = "World"
+d:Ge/Detector/HLX      = 0.5 mm
+d:Ge/Detector/HLY      = 46. mm
+d:Ge/Detector/HLZ      = 60. mm  #Half length!
+d:Ge/Detector/TransX   = -14.376 cm
+d:Ge/Detector/TransY   = 8.3 cm
+d:Ge/Detector/TransZ   = 0. m
+d:Ge/Detector/RotZ = 30 deg
+i:Ge/Detector/YBins = 46
+i:Ge/Detector/ZBins = 120 #20
+
+s:Ge/SlitPlane/Type     = "TsBox"
+s:Ge/SlitPlane/Material = "G4_Pb"
+s:Ge/SlitPlane/Parent   = "World"
+d:Ge/SlitPlane/HLX      = 0.5 mm
+d:Ge/SlitPlane/HLY      = 46. mm
+d:Ge/SlitPlane/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane/TransX   = -7.18 cm
+d:Ge/SlitPlane/TransY   = 4.15 cm
+d:Ge/SlitPlane/TransZ   = 0. m
+d:Ge/SlitPlane/RotZ = 30 deg
+s:Ge/SlitPlane/Color	= "lightblue"
+
+s:Ge/Slit/Type     = "TsBox"
+s:Ge/Slit/Material = "Air"
+s:Ge/Slit/Parent   = "SlitPlane"
+d:Ge/Slit/HLX      = 0.5 mm
+d:Ge/Slit/HLY      = 46. mm
+d:Ge/Slit/HLZ      = 0.25 mm #1 mm
+d:Ge/Slit/TransX   = 0. m
+d:Ge/Slit/TransY   = 0. m
+d:Ge/Slit/TransZ   = 0 mm
+s:Ge/Slit/Color    = "lightblue"
+
+
+#SW DETECTOR
+s:Ge/Detector2/Type     = "TsBox"
+s:Ge/Detector2/Material = "Vacuum"
+s:Ge/Detector2/Parent   = "World"
+d:Ge/Detector2/HLX      = 0.5 mm
+d:Ge/Detector2/HLY      = 46. mm
+d:Ge/Detector2/HLZ      = 60. mm  #Half length!
+d:Ge/Detector2/TransX   = -14.376 cm
+d:Ge/Detector2/TransY   = -8.3 cm
+d:Ge/Detector2/TransZ   = 0. m
+d:Ge/Detector2/RotZ = -30 deg
+i:Ge/Detector2/YBins = 46
+i:Ge/Detector2/ZBins = 120 #20
+
+s:Ge/SlitPlane2/Type     = "TsBox"
+s:Ge/SlitPlane2/Material = "G4_Pb"
+s:Ge/SlitPlane2/Parent   = "World"
+d:Ge/SlitPlane2/HLX      = 0.5 mm
+d:Ge/SlitPlane2/HLY      = 46. mm
+d:Ge/SlitPlane2/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane2/TransX   = -7.18 cm
+d:Ge/SlitPlane2/TransY   = -4.15 cm
+d:Ge/SlitPlane2/TransZ   = 0. m
+d:Ge/SlitPlane2/RotZ = -30 deg
+s:Ge/SlitPlane2/Color	= "lightblue"
+
+s:Ge/Slit2/Type     = "TsBox"
+s:Ge/Slit2/Material = "Air"
+s:Ge/Slit2/Parent   = "SlitPlane2"
+d:Ge/Slit2/HLX      = 0.5 mm
+d:Ge/Slit2/HLY      = 46. mm
+d:Ge/Slit2/HLZ      = 0.25 mm #1 mm
+d:Ge/Slit2/TransX   = 0. m
+d:Ge/Slit2/TransY   = 0. m
+d:Ge/Slit2/TransZ   = 0 mm
+s:Ge/Slit2/Color    = "lightblue"
+
+
+
+#North DETECTOR
+s:Ge/Detector3/Type     = "TsBox"
+s:Ge/Detector3/Material = "Vacuum"
+s:Ge/Detector3/Parent   = "World"
+d:Ge/Detector3/HLX      = 46 mm
+d:Ge/Detector3/HLY      = 0.5 mm
+d:Ge/Detector3/HLZ      = 60. mm #100. mm
+d:Ge/Detector3/TransX   = 0. cm
+d:Ge/Detector3/TransY   = 16.6 cm
+d:Ge/Detector3/TransZ   = 0. m
+i:Ge/Detector3/XBins = 46
+i:Ge/Detector3/ZBins = 120
+
+s:Ge/SlitPlane3/Type     = "TsBox"
+s:Ge/SlitPlane3/Material = "G4_Pb"
+s:Ge/SlitPlane3/Parent   = "World"
+d:Ge/SlitPlane3/HLX      = 46. mm
+d:Ge/SlitPlane3/HLY      = 0.5 mm
+d:Ge/SlitPlane3/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane3/TransX   = 0. cm
+d:Ge/SlitPlane3/TransY   = 8.3 cm
+d:Ge/SlitPlane3/TransZ   = 0. m
+s:Ge/SlitPlane3/Color    = "lightblue"
+
+s:Ge/Slit3/Type     = "TsBox"
+s:Ge/Slit3/Material = "Air"
+s:Ge/Slit3/Parent   = "SlitPlane3"
+d:Ge/Slit3/HLX      = 46. mm
+d:Ge/Slit3/HLY      = 0.5 mm
+d:Ge/Slit3/HLZ      = 0.25 mm 
+d:Ge/Slit3/TransX   = 0. m
+d:Ge/Slit3/TransY   = 0. m
+d:Ge/Slit3/TransZ   = 0 mm
+s:Ge/Slit3/Color    = "lightblue"
+
+#NORTH EAST DETECTOR
+s:Ge/Detector4/Type     = "TsBox"
+s:Ge/Detector4/Material = "Vacuum"
+s:Ge/Detector4/Parent   = "World"
+d:Ge/Detector4/HLX      = 0.5 mm
+d:Ge/Detector4/HLY      = 46. mm
+d:Ge/Detector4/HLZ      = 60. mm  #Half length!
+d:Ge/Detector4/TransX   = 14.376 cm
+d:Ge/Detector4/TransY   = 8.3 cm
+d:Ge/Detector4/TransZ   = 0. m
+d:Ge/Detector4/RotZ = -30 deg
+i:Ge/Detector4/YBins = 46
+i:Ge/Detector4/ZBins = 120 #20
+
+s:Ge/SlitPlane4/Type     = "TsBox"
+s:Ge/SlitPlane4/Material = "G4_Pb"
+s:Ge/SlitPlane4/Parent   = "World"
+d:Ge/SlitPlane4/HLX      = 0.5 mm
+d:Ge/SlitPlane4/HLY      = 46. mm
+d:Ge/SlitPlane4/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane4/TransX   = 7.18 cm
+d:Ge/SlitPlane4/TransY   = 4.15 cm
+d:Ge/SlitPlane4/TransZ   = 0. m
+d:Ge/SlitPlane4/RotZ = -30 deg
+s:Ge/SlitPlane4/Color	= "lightblue"
+
+s:Ge/Slit4/Type     = "TsBox"
+s:Ge/Slit4/Material = "Air"
+s:Ge/Slit4/Parent   = "SlitPlane4"
+d:Ge/Slit4/HLX      = 0.5 mm
+d:Ge/Slit4/HLY      = 46. mm
+d:Ge/Slit4/HLZ      = 0.25 mm #1 mm
+d:Ge/Slit4/TransX   = 0. m
+d:Ge/Slit4/TransY   = 0. m
+d:Ge/Slit4/TransZ   = 0 mm
+s:Ge/Slit4/Color    = "lightblue"
+
+
+#SOUTH EAST
+s:Ge/Detector5/Type     = "TsBox"
+s:Ge/Detector5/Material = "Vacuum"
+s:Ge/Detector5/Parent   = "World"
+d:Ge/Detector5/HLX      = 0.5 mm
+d:Ge/Detector5/HLY      = 46. mm
+d:Ge/Detector5/HLZ      = 60. mm  #Half length!
+d:Ge/Detector5/TransX   = 14.376 cm
+d:Ge/Detector5/TransY   = -8.3 cm
+d:Ge/Detector5/TransZ   = 0. m
+d:Ge/Detector5/RotZ = 30 deg
+i:Ge/Detector5/YBins = 46
+i:Ge/Detector5/ZBins = 120 #20
+
+s:Ge/SlitPlane5/Type     = "TsBox"
+s:Ge/SlitPlane5/Material = "G4_Pb"
+s:Ge/SlitPlane5/Parent   = "World"
+d:Ge/SlitPlane5/HLX      = 0.5 mm
+d:Ge/SlitPlane5/HLY      = 46. mm
+d:Ge/SlitPlane5/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane5/TransX   = 7.18 cm
+d:Ge/SlitPlane5/TransY   = -4.15 cm
+d:Ge/SlitPlane5/TransZ   = 0. m
+d:Ge/SlitPlane5/RotZ = 30 deg
+s:Ge/SlitPlane5/Color	= "lightblue"
+
+s:Ge/Slit5/Type     = "TsBox"
+s:Ge/Slit5/Material = "Air"
+s:Ge/Slit5/Parent   = "SlitPlane5"
+d:Ge/Slit5/HLX      = 0.5 mm
+d:Ge/Slit5/HLY      = 46. mm
+d:Ge/Slit5/HLZ      = 0.25 mm #1 mm
+d:Ge/Slit5/TransX   = 0. m
+d:Ge/Slit5/TransY   = 0. m
+d:Ge/Slit5/TransZ   = 0 mm
+s:Ge/Slit5/Color    = "lightblue"
+
+#S DETECTOR
+s:Ge/Detector6/Type     = "TsBox"
+s:Ge/Detector6/Material = "Vacuum"
+s:Ge/Detector6/Parent   = "World"
+d:Ge/Detector6/HLX      = 46 mm
+d:Ge/Detector6/HLY      = 0.5 mm
+d:Ge/Detector6/HLZ      = 60. mm 
+d:Ge/Detector6/TransX   = 0. cm
+d:Ge/Detector6/TransY   = -16.6 cm
+d:Ge/Detector6/TransZ   = 0. m
+i:Ge/Detector6/XBins = 46
+i:Ge/Detector6/ZBins = 120
+
+s:Ge/SlitPlane6/Type     = "TsBox"
+s:Ge/SlitPlane6/Material = "G4_Pb"
+s:Ge/SlitPlane6/Parent   = "World"
+d:Ge/SlitPlane6/HLX      = 46. mm
+d:Ge/SlitPlane6/HLY      = 0.5 mm
+d:Ge/SlitPlane6/HLZ      = 60. mm
+d:Ge/SlitPlane6/TransX   = 0. cm
+d:Ge/SlitPlane6/TransY   = -8.3 cm
+d:Ge/SlitPlane6/TransZ   = 0. m
+s:Ge/SlitPlane6/Color    = "lightblue"
+
+s:Ge/Slit6/Type     = "TsBox"
+s:Ge/Slit6/Material = "Air"
+s:Ge/Slit6/Parent   = "SlitPlane6"
+d:Ge/Slit6/HLX      = 46. mm
+d:Ge/Slit6/HLY      = 0.5 mm
+d:Ge/Slit6/HLZ      = 0.25 mm 
+d:Ge/Slit6/TransX   = 0. m
+d:Ge/Slit6/TransY   = 0. m
+d:Ge/Slit6/TransZ   = 0 mm
+s:Ge/Slit6/Color    = "lightblue"
+
+
+#Scorer for counts at detectors - separate in time by outputting after every run
+s:Sc/CountScorer/Quantity = "SurfaceTrackCount"
+s:Sc/CountScorer/Surface = "Detector/XPlusSurface"
+s:Sc/CountScorer/OutputFile = "combinedtest_perpos"
+s:Sc/CountScorer/IfOutputFileAlreadyExists = "Overwrite"
+b:Sc/CountScorer/OutputAfterRun = "True"
+i:Sc/CountScorer/EBins = 8 # defaults to 1, that is, un-binned
+d:Sc/CountScorer/EBinMin = 65. keV # defaults to zero
+d:Sc/CountScorer/EBinMax = 73. keV # must be specified if EBins is greater than 1
+
+s:Sc/CountScorer2/Quantity = "SurfaceTrackCount"
+s:Sc/CountScorer2/Surface = "Detector2/XPlusSurface"
+s:Sc/CountScorer2/OutputFile = "combinedtestside2_perpos"
+s:Sc/CountScorer2/IfOutputFileAlreadyExists = "Overwrite"
+b:Sc/CountScorer2/OutputAfterRun = "True"
+i:Sc/CountScorer2/EBins = 8 # defaults to 1, that is, un-binned
+d:Sc/CountScorer2/EBinMin = 65. keV # defaults to zero
+d:Sc/CountScorer2/EBinMax = 73. keV # must be specified if EBins is greater than 1
+
+s:Sc/CountScorer3/Quantity = "SurfaceTrackCount"
+s:Sc/CountScorer3/Surface = "Detector3/YMinusSurface"
+s:Sc/CountScorer3/OutputFile = "combinedtestside3_perpos"
+s:Sc/CountScorer3/IfOutputFileAlreadyExists = "Overwrite"
+b:Sc/CountScorer3/OutputAfterRun = "True"
+i:Sc/CountScorer3/EBins = 8 # defaults to 1, that is, un-binned
+d:Sc/CountScorer3/EBinMin = 65. keV # defaults to zero
+d:Sc/CountScorer3/EBinMax = 73. keV # must be specified if EBins is greater than 1
+
+s:Sc/CountScorer4/Quantity = "SurfaceTrackCount"
+s:Sc/CountScorer4/Surface = "Detector4/XMinusSurface"
+s:Sc/CountScorer4/OutputFile = "combinedtestside4_perpos"
+s:Sc/CountScorer4/IfOutputFileAlreadyExists = "Overwrite"
+b:Sc/CountScorer4/OutputAfterRun = "True"
+i:Sc/CountScorer4/EBins = 8 # defaults to 1, that is, un-binned
+d:Sc/CountScorer4/EBinMin = 65. keV # defaults to zero
+d:Sc/CountScorer4/EBinMax = 73. keV # must be specified if EBins is greater than 1
+
+s:Sc/CountScorer5/Quantity = "SurfaceTrackCount"
+s:Sc/CountScorer5/Surface = "Detector5/XMinusSurface"
+s:Sc/CountScorer5/OutputFile = "combinedtestside5_perpos"
+s:Sc/CountScorer5/IfOutputFileAlreadyExists = "Overwrite"
+b:Sc/CountScorer5/OutputAfterRun = "True"
+i:Sc/CountScorer5/EBins = 8 # defaults to 1, that is, un-binned
+d:Sc/CountScorer5/EBinMin = 65. keV # defaults to zero
+d:Sc/CountScorer5/EBinMax = 73. keV # must be specified if EBins is greater than 1
+
+s:Sc/CountScorer6/Quantity = "SurfaceTrackCount"
+s:Sc/CountScorer6/Surface = "Detector6/YPlusSurface"
+s:Sc/CountScorer6/OutputFile = "combinedtestside6_perpos"
+s:Sc/CountScorer6/IfOutputFileAlreadyExists = "Overwrite"
+b:Sc/CountScorer6/OutputAfterRun = "True"
+i:Sc/CountScorer6/EBins = 8 # defaults to 1, that is, un-binned
+d:Sc/CountScorer6/EBinMin = 65. keV # defaults to zero
+d:Sc/CountScorer6/EBinMax = 73. keV # must be specified if EBins is greater than 1
+
+#score dose to object
+#s:Sc/DoseAtPhantom/Quantity                  = "DoseToMedium"
+#s:Sc/DoseAtPhantom/Component                 = "Cube_phantom"
+#b:Sc/DoseAtPhantom/OutputToConsole           = "TRUE"
+#s:Sc/DoseAtPhantom/OutputFile = "Dose_to_moby"
+#s:Sc/DoseAtPhantom/IfOutputFileAlreadyExists = "Overwrite"
+
+# POLYCHROMATIC pencil beam
+s:So/PencilBeam/Type = "Beam"
+s:So/PencilBeam/Component = "BeamPosition"
+s:So/PencilBeam/BeamParticle = "gamma"
+includeFile = poly120kVp_cutoff.txt
+s:So/PencilBeam/BeamPositionDistribution = "None"
+s:So/PencilBeam/BeamAngularDistribution = "None"
+i:So/PencilBeam/NumberOfHistoriesInRun = 4875000 #with 4 runs, this is 125,000,000, which is equivalent to the other paper3 run   
+
+
+#Monte Carlo setting
+Ts/ShowHistoryCountAtInterval = 0
+i:Ts/NumberOfThreads = 64
+i:Ts/Seed = 2   #change this seed for the four runs: 34, 82, 91
+
+#Don't pause for GEANT commands before quitting
+b:Ts/PauseBeforeQuit = "False"
+

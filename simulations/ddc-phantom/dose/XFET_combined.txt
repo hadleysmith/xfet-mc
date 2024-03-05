@@ -1,0 +1,280 @@
+
+s:Ge/World/Material = "Air"
+sv:Ph/Default/Modules = 1 "g4em-standard_opt3"
+b:Ph/ListProcesses = "True"
+
+#change beam position
+s:Ge/BeamPosition/Parent   = "World"
+s:Ge/BeamPosition/Type     = "Group"
+d:Ge/BeamPosition/TransX   = 0 cm
+d:Ge/BeamPosition/TransY   = 0 cm
+
+#import phantom
+includefile = DDC_gen4
+
+#translate phantom with time 
+s:Tf/phantom_Ytranslate/Function = "Step"
+dv:Tf/phantom_Ytranslate/Times = 64 6.4 12.8 19.2 25.6 32. 38.4 44.8 51.2 57.6 64. 70.4 76.8 83.2 89.6 96. 102.4 108.8 115.2 121.6 128. 134.4 140.8 147.2 153.6 160. 166.4 172.8 179.2 185.6 192. 198.4 204.8 211.2 217.6 224. 230.4 236.8 243.2 249.6 256. 262.4 268.8 275.2 281.6 288. 294.4 300.8 307.2 313.6 320. 326.4 332.8 339.2 345.6 352. 358.4 364.8 371.2 377.6 384. 390.4 396.8 403.2 409.6 s
+dv:Tf/phantom_Ytranslate/Values = 64 -1.575 -1.525 -1.475 -1.425 -1.375 -1.325 -1.275 -1.225 -1.175 -1.125 -1.075 -1.025 -0.975 -0.925 -0.875 -0.825 -0.775 -0.725 -0.675 -0.625 -0.575 -0.525 -0.475 -0.425 -0.375 -0.325 -0.275 -0.225 -0.175 -0.125 -0.075 -0.025 0.025 0.075 0.125 0.175 0.225 0.275 0.325 0.375 0.425 0.475 0.525 0.575 0.625 0.675 0.725 0.775 0.825 0.875 0.925 0.975 1.025 1.075 1.125 1.175 1.225 1.275 1.325 1.375 1.425 1.475 1.525 1.575 cm
+
+s:Tf/phantom_Xtranslate/Function = "Step"
+dv:Tf/phantom_Xtranslate/Times = 64 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8 3.9 4.0 4.1 4.2 4.3 4.4 4.5 4.6 4.7 4.8 4.9 5.0 5.1 5.2 5.3 5.4 5.5 5.6 5.7 5.8 5.9 6.0 6.1 6.2 6.3 6.4 s
+dv:Tf/phantom_Xtranslate/Values = 64 1.575 1.525 1.475 1.425 1.375 1.325 1.275 1.225 1.175 1.125 1.075 1.025 0.975 0.925 0.875 0.825 0.775 0.725 0.675 0.625 0.575 0.525 0.475 0.425 0.375 0.325 0.275 0.225 0.175 0.125 0.075 0.025 -0.025 -0.075 -0.125 -0.175 -0.225 -0.275 -0.325 -0.375 -0.425 -0.475 -0.525 -0.575 -0.625 -0.675 -0.725 -0.775 -0.825 -0.875 -0.925 -0.975 -1.025 -1.075 -1.125 -1.175 -1.225 -1.275 -1.325 -1.375 -1.425 -1.475 -1.525 -1.575 cm
+d:Tf/TimelineEnd               = 409.6 s
+i:Tf/NumberOfSequentialTimes   = 4096
+
+d:Ge/DDC/TransX = 0. cm + Tf/phantom_Xtranslate/Value
+d:Ge/DDC/TransY = 0. cm + Tf/phantom_Ytranslate/Value
+d:Ge/DDC/TransZ = 0 cm
+
+#SAME DETECTOR SYSTEM AS MOBY 1MM RUN 
+#NW DETECTOR
+s:Ge/Detector/Type     = "TsBox"
+s:Ge/Detector/Material = "Vacuum"
+s:Ge/Detector/Parent   = "World"
+d:Ge/Detector/HLX      = 0.5 mm
+d:Ge/Detector/HLY      = 46. mm
+d:Ge/Detector/HLZ      = 60. mm  #Half length!
+d:Ge/Detector/TransX   = -14.376 cm
+d:Ge/Detector/TransY   = 8.3 cm
+d:Ge/Detector/TransZ   = 0. m
+d:Ge/Detector/RotZ = 30 deg
+i:Ge/Detector/YBins = 46
+i:Ge/Detector/ZBins = 120 #20
+
+s:Ge/SlitPlane/Type     = "TsBox"
+s:Ge/SlitPlane/Material = "G4_Pb"
+s:Ge/SlitPlane/Parent   = "World"
+d:Ge/SlitPlane/HLX      = 0.5 mm
+d:Ge/SlitPlane/HLY      = 46. mm
+d:Ge/SlitPlane/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane/TransX   = -7.18 cm
+d:Ge/SlitPlane/TransY   = 4.15 cm
+d:Ge/SlitPlane/TransZ   = 0. m
+d:Ge/SlitPlane/RotZ = 30 deg
+s:Ge/SlitPlane/Color	= "lightblue"
+
+s:Ge/Slit/Type     = "TsBox"
+s:Ge/Slit/Material = "Air"
+s:Ge/Slit/Parent   = "SlitPlane"
+d:Ge/Slit/HLX      = 0.5 mm
+d:Ge/Slit/HLY      = 46. mm
+d:Ge/Slit/HLZ      = 0.25 mm #1 mm
+d:Ge/Slit/TransX   = 0. m
+d:Ge/Slit/TransY   = 0. m
+d:Ge/Slit/TransZ   = 0 mm
+s:Ge/Slit/Color    = "lightblue"
+
+
+#SW DETECTOR
+s:Ge/Detector2/Type     = "TsBox"
+s:Ge/Detector2/Material = "Vacuum"
+s:Ge/Detector2/Parent   = "World"
+d:Ge/Detector2/HLX      = 0.5 mm
+d:Ge/Detector2/HLY      = 46. mm
+d:Ge/Detector2/HLZ      = 60. mm  #Half length!
+d:Ge/Detector2/TransX   = -14.376 cm
+d:Ge/Detector2/TransY   = -8.3 cm
+d:Ge/Detector2/TransZ   = 0. m
+d:Ge/Detector2/RotZ = -30 deg
+i:Ge/Detector2/YBins = 46
+i:Ge/Detector2/ZBins = 120 #20
+
+s:Ge/SlitPlane2/Type     = "TsBox"
+s:Ge/SlitPlane2/Material = "G4_Pb"
+s:Ge/SlitPlane2/Parent   = "World"
+d:Ge/SlitPlane2/HLX      = 0.5 mm
+d:Ge/SlitPlane2/HLY      = 46. mm
+d:Ge/SlitPlane2/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane2/TransX   = -7.18 cm
+d:Ge/SlitPlane2/TransY   = -4.15 cm
+d:Ge/SlitPlane2/TransZ   = 0. m
+d:Ge/SlitPlane2/RotZ = -30 deg
+s:Ge/SlitPlane2/Color	= "lightblue"
+
+s:Ge/Slit2/Type     = "TsBox"
+s:Ge/Slit2/Material = "Air"
+s:Ge/Slit2/Parent   = "SlitPlane2"
+d:Ge/Slit2/HLX      = 0.5 mm
+d:Ge/Slit2/HLY      = 46. mm
+d:Ge/Slit2/HLZ      = 0.25 mm #1 mm
+d:Ge/Slit2/TransX   = 0. m
+d:Ge/Slit2/TransY   = 0. m
+d:Ge/Slit2/TransZ   = 0 mm
+s:Ge/Slit2/Color    = "lightblue"
+
+
+
+#North DETECTOR
+s:Ge/Detector3/Type     = "TsBox"
+s:Ge/Detector3/Material = "Vacuum"
+s:Ge/Detector3/Parent   = "World"
+d:Ge/Detector3/HLX      = 46 mm
+d:Ge/Detector3/HLY      = 0.5 mm
+d:Ge/Detector3/HLZ      = 60. mm #100. mm
+d:Ge/Detector3/TransX   = 0. cm
+d:Ge/Detector3/TransY   = 16.6 cm
+d:Ge/Detector3/TransZ   = 0. m
+i:Ge/Detector3/XBins = 46
+i:Ge/Detector3/ZBins = 120
+
+s:Ge/SlitPlane3/Type     = "TsBox"
+s:Ge/SlitPlane3/Material = "G4_Pb"
+s:Ge/SlitPlane3/Parent   = "World"
+d:Ge/SlitPlane3/HLX      = 46. mm
+d:Ge/SlitPlane3/HLY      = 0.5 mm
+d:Ge/SlitPlane3/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane3/TransX   = 0. cm
+d:Ge/SlitPlane3/TransY   = 8.3 cm
+d:Ge/SlitPlane3/TransZ   = 0. m
+s:Ge/SlitPlane3/Color    = "lightblue"
+
+s:Ge/Slit3/Type     = "TsBox"
+s:Ge/Slit3/Material = "Air"
+s:Ge/Slit3/Parent   = "SlitPlane3"
+d:Ge/Slit3/HLX      = 46. mm
+d:Ge/Slit3/HLY      = 0.5 mm
+d:Ge/Slit3/HLZ      = 0.25 mm 
+d:Ge/Slit3/TransX   = 0. m
+d:Ge/Slit3/TransY   = 0. m
+d:Ge/Slit3/TransZ   = 0 mm
+s:Ge/Slit3/Color    = "lightblue"
+
+#NORTH EAST DETECTOR
+s:Ge/Detector4/Type     = "TsBox"
+s:Ge/Detector4/Material = "Vacuum"
+s:Ge/Detector4/Parent   = "World"
+d:Ge/Detector4/HLX      = 0.5 mm
+d:Ge/Detector4/HLY      = 46. mm
+d:Ge/Detector4/HLZ      = 60. mm  #Half length!
+d:Ge/Detector4/TransX   = 14.376 cm
+d:Ge/Detector4/TransY   = 8.3 cm
+d:Ge/Detector4/TransZ   = 0. m
+d:Ge/Detector4/RotZ = -30 deg
+i:Ge/Detector4/YBins = 46
+i:Ge/Detector4/ZBins = 120 #20
+
+s:Ge/SlitPlane4/Type     = "TsBox"
+s:Ge/SlitPlane4/Material = "G4_Pb"
+s:Ge/SlitPlane4/Parent   = "World"
+d:Ge/SlitPlane4/HLX      = 0.5 mm
+d:Ge/SlitPlane4/HLY      = 46. mm
+d:Ge/SlitPlane4/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane4/TransX   = 7.18 cm
+d:Ge/SlitPlane4/TransY   = 4.15 cm
+d:Ge/SlitPlane4/TransZ   = 0. m
+d:Ge/SlitPlane4/RotZ = -30 deg
+s:Ge/SlitPlane4/Color	= "lightblue"
+
+s:Ge/Slit4/Type     = "TsBox"
+s:Ge/Slit4/Material = "Air"
+s:Ge/Slit4/Parent   = "SlitPlane4"
+d:Ge/Slit4/HLX      = 0.5 mm
+d:Ge/Slit4/HLY      = 46. mm
+d:Ge/Slit4/HLZ      = 0.25 mm #1 mm
+d:Ge/Slit4/TransX   = 0. m
+d:Ge/Slit4/TransY   = 0. m
+d:Ge/Slit4/TransZ   = 0 mm
+s:Ge/Slit4/Color    = "lightblue"
+
+
+#SOUTH EAST
+s:Ge/Detector5/Type     = "TsBox"
+s:Ge/Detector5/Material = "Vacuum"
+s:Ge/Detector5/Parent   = "World"
+d:Ge/Detector5/HLX      = 0.5 mm
+d:Ge/Detector5/HLY      = 46. mm
+d:Ge/Detector5/HLZ      = 60. mm  #Half length!
+d:Ge/Detector5/TransX   = 14.376 cm
+d:Ge/Detector5/TransY   = -8.3 cm
+d:Ge/Detector5/TransZ   = 0. m
+d:Ge/Detector5/RotZ = 30 deg
+i:Ge/Detector5/YBins = 46
+i:Ge/Detector5/ZBins = 120 #20
+
+s:Ge/SlitPlane5/Type     = "TsBox"
+s:Ge/SlitPlane5/Material = "G4_Pb"
+s:Ge/SlitPlane5/Parent   = "World"
+d:Ge/SlitPlane5/HLX      = 0.5 mm
+d:Ge/SlitPlane5/HLY      = 46. mm
+d:Ge/SlitPlane5/HLZ      = 60. mm #100. mm
+d:Ge/SlitPlane5/TransX   = 7.18 cm
+d:Ge/SlitPlane5/TransY   = -4.15 cm
+d:Ge/SlitPlane5/TransZ   = 0. m
+d:Ge/SlitPlane5/RotZ = 30 deg
+s:Ge/SlitPlane5/Color	= "lightblue"
+
+s:Ge/Slit5/Type     = "TsBox"
+s:Ge/Slit5/Material = "Air"
+s:Ge/Slit5/Parent   = "SlitPlane5"
+d:Ge/Slit5/HLX      = 0.5 mm
+d:Ge/Slit5/HLY      = 46. mm
+d:Ge/Slit5/HLZ      = 0.25 mm #1 mm
+d:Ge/Slit5/TransX   = 0. m
+d:Ge/Slit5/TransY   = 0. m
+d:Ge/Slit5/TransZ   = 0 mm
+s:Ge/Slit5/Color    = "lightblue"
+
+#S DETECTOR
+s:Ge/Detector6/Type     = "TsBox"
+s:Ge/Detector6/Material = "Vacuum"
+s:Ge/Detector6/Parent   = "World"
+d:Ge/Detector6/HLX      = 46 mm
+d:Ge/Detector6/HLY      = 0.5 mm
+d:Ge/Detector6/HLZ      = 60. mm 
+d:Ge/Detector6/TransX   = 0. cm
+d:Ge/Detector6/TransY   = -16.6 cm
+d:Ge/Detector6/TransZ   = 0. m
+i:Ge/Detector6/XBins = 46
+i:Ge/Detector6/ZBins = 120
+
+s:Ge/SlitPlane6/Type     = "TsBox"
+s:Ge/SlitPlane6/Material = "G4_Pb"
+s:Ge/SlitPlane6/Parent   = "World"
+d:Ge/SlitPlane6/HLX      = 46. mm
+d:Ge/SlitPlane6/HLY      = 0.5 mm
+d:Ge/SlitPlane6/HLZ      = 60. mm
+d:Ge/SlitPlane6/TransX   = 0. cm
+d:Ge/SlitPlane6/TransY   = -8.3 cm
+d:Ge/SlitPlane6/TransZ   = 0. m
+s:Ge/SlitPlane6/Color    = "lightblue"
+
+s:Ge/Slit6/Type     = "TsBox"
+s:Ge/Slit6/Material = "Air"
+s:Ge/Slit6/Parent   = "SlitPlane6"
+d:Ge/Slit6/HLX      = 46. mm
+d:Ge/Slit6/HLY      = 0.5 mm
+d:Ge/Slit6/HLZ      = 0.25 mm 
+d:Ge/Slit6/TransX   = 0. m
+d:Ge/Slit6/TransY   = 0. m
+d:Ge/Slit6/TransZ   = 0 mm
+s:Ge/Slit6/Color    = "lightblue"
+
+
+#score dose to object
+s:Sc/DoseAtPhantom/Quantity                  = "DoseToMedium"
+s:Sc/DoseAtPhantom/Component                 = "DDC"
+b:Sc/DoseAtPhantom/OutputToConsole           = "TRUE"
+s:Sc/DoseAtPhantom/OutputFile = "Dose_to_phantom"
+s:Sc/DoseAtPhantom/IfOutputFileAlreadyExists = "Overwrite"
+sv:Sc/DoseAtPhantom/Report                   = 4 "Sum" "Mean" "Variance" "Standard_Deviation"
+
+
+# POLYCHROMATIC pencil beam
+s:So/PencilBeam/Type = "Beam"
+s:So/PencilBeam/Component = "BeamPosition"
+s:So/PencilBeam/BeamParticle = "gamma"
+includeFile = poly120kVp.txt
+s:So/PencilBeam/BeamPositionDistribution = "None"
+s:So/PencilBeam/BeamAngularDistribution = "None"
+i:So/PencilBeam/NumberOfHistoriesInRun = 125000000 
+
+
+#Monte Carlo setting
+Ts/ShowHistoryCountAtInterval = 0
+i:Ts/NumberOfThreads = 64
+i:Ts/Seed = 93
+
+#Don't pause for GEANT commands before quitting
+b:Ts/PauseBeforeQuit = "False"
+

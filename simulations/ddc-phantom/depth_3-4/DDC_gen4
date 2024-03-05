@@ -1,0 +1,199 @@
+#this is version 2 with additional depths
+#b:Ts/UseQt = "True"
+#s:Gr/ViewA/Type			= "OpenGL"
+#sv:Gr/ViewA/VisibleWorlds 	= 1 "All"
+#i:Gr/ViewA/WindowSizeX		= 1200
+#i:Gr/ViewA/WindowSizeY		= 1000
+#d:Gr/ViewA/Theta 		= 70 deg
+#d:Gr/ViewA/Phi 			= 0 deg
+#uc:Gr/ViewA/Zoom             	= 3
+#b:Gr/Enable = "True" #false
+
+#s:Gr/ViewA/Type             = "OpenGL"
+#i:Gr/ViewA/WindowSizeX      = 1536
+#i:Gr/ViewA/WindowSizeY      = 1152
+#b:Gr/ViewA/IncludeAxes      = "False"
+#d:Gr/ViewA/Theta            = 30 deg #0 deg #55 deg
+#d:Gr/ViewA/Phi              = 60 deg
+#s:Gr/ViewA/Projection       = "Perspective"
+#d:Gr/ViewA/PerspectiveAngle = 55 deg
+#u:Gr/ViewA/Zoom             = 70. #25. #100.
+#b:Ts/UseQt = "True"
+#b:Gr/Enable = "True" #false
+
+#Don't pause for GEANT commands before quitting
+#b:Ts/PauseBeforeQuit = "False"
+
+#4% gold
+b:Ma/gold_04/BuildFromMaterials = "True"
+sv:Ma/gold_04/Components = 2 "G4_Au" "G4_TISSUE_SOFT_ICRP"
+uv:Ma/gold_04/Fractions = 2 0.04 0.96
+d:Ma/gold_04/Density = 1.039 g/cm3 
+
+#2% gold
+b:Ma/gold_02/BuildFromMaterials = "True"
+sv:Ma/gold_02/Components = 2 "G4_Au" "G4_TISSUE_SOFT_ICRP"
+uv:Ma/gold_02/Fractions = 2 0.02 0.98
+d:Ma/gold_02/Density = 1.019 g/cm3 
+
+#1.5% gold
+b:Ma/gold_015/BuildFromMaterials = "True"
+sv:Ma/gold_015/Components = 2 "G4_Au" "G4_TISSUE_SOFT_ICRP"
+uv:Ma/gold_015/Fractions = 2 0.015 0.985
+d:Ma/gold_015/Density = 1.014 g/cm3 
+
+#1% gold
+b:Ma/gold_01/BuildFromMaterials = "True"
+sv:Ma/gold_01/Components = 2 "G4_Au" "G4_TISSUE_SOFT_ICRP"
+uv:Ma/gold_01/Fractions = 2 0.01 0.99
+d:Ma/gold_01/Density = 1.009 g/cm3 
+
+#0.5% gold
+b:Ma/gold_005/BuildFromMaterials = "True"
+sv:Ma/gold_005/Components = 2 "G4_Au" "G4_TISSUE_SOFT_ICRP"
+uv:Ma/gold_005/Fractions = 2 0.005 0.995
+d:Ma/gold_005/Density = 1.005 g/cm3 
+
+#0.05% gold
+b:Ma/gold_0005/BuildFromMaterials = "True"
+sv:Ma/gold_0005/Components = 2 "G4_Au" "G4_TISSUE_SOFT_ICRP"
+uv:Ma/gold_0005/Fractions = 2 0.0005 0.9995
+d:Ma/gold_0005/Density = 1.0 g/cm3 
+
+
+
+#Generation 4 cylindrical phantom
+s:Ge/DDC/Type     = "TsCylinder"
+s:Ge/DDC/Parent   = "World"
+s:Ge/DDC/Material = "G4_TISSUE_SOFT_ICRP"
+s:Ge/DDC/Color    = "White"  
+d:Ge/DDC/RMax     = 1.6 cm
+d:Ge/DDC/HL       = 6.7 cm
+d:Ge/DDC/TransZ   = 0. cm
+
+#insert spheres:
+#4% gold -- corresponds to label "2" in python object
+s:Ge/4_shallow/Type = "TsSphere"
+s:Ge/4_shallow/Parent = "DDC"
+s:Ge/4_shallow/Material = "gold_04"
+s:Ge/4_shallow/color = "Red" 
+d:Ge/4_shallow/RMax = 2 mm 
+d:Ge/4_shallow/TransX = 0.5 cm
+d:Ge/4_shallow/TransY = 0.86875 cm
+d:Ge/4_shallow/TransZ =  -12.75 mm
+
+#2% gold -- corresponds to label "3" in python object
+s:Ge/2_shallow/Type = "TsSphere"
+s:Ge/2_shallow/Parent = "DDC"
+s:Ge/2_shallow/Material = "gold_02"
+s:Ge/2_shallow/color = "Orange" 
+d:Ge/2_shallow/RMax = 2 mm 
+d:Ge/2_shallow/TransX = -0.5 cm
+d:Ge/2_shallow/TransY = 0.86875 cm
+d:Ge/2_shallow/TransZ =  -12.75 mm
+
+#1.5% gold -- corresponds to label "4" in python object
+s:Ge/1.5_shallow/Type = "TsSphere"
+s:Ge/1.5_shallow/Parent = "DDC"
+s:Ge/1.5_shallow/Material = "gold_015"
+s:Ge/1.5_shallow/color = "Yellow" 
+d:Ge/1.5_shallow/RMax = 2 mm 
+d:Ge/1.5_shallow/TransX = -1.0 cm
+d:Ge/1.5_shallow/TransY = 0. cm
+d:Ge/1.5_shallow/TransZ =  -12.75 mm
+
+#1% gold -- corresponds to label "5" in python object
+s:Ge/1_shallow/Type = "TsSphere"
+s:Ge/1_shallow/Parent = "DDC"
+s:Ge/1_shallow/Material = "gold_01"
+s:Ge/1_shallow/color = "Green" 
+d:Ge/1_shallow/RMax = 2 mm 
+d:Ge/1_shallow/TransX = -0.5 cm
+d:Ge/1_shallow/TransY = -0.86875  cm
+d:Ge/1_shallow/TransZ =  -12.75 mm
+
+#0.5% gold -- corresponds to label "6" in python object
+s:Ge/0.5_shallow/Type = "TsSphere"
+s:Ge/0.5_shallow/Parent = "DDC"
+s:Ge/0.5_shallow/Material = "gold_005"
+s:Ge/0.5_shallow/color = "Blue" 
+d:Ge/0.5_shallow/RMax = 2 mm 
+d:Ge/0.5_shallow/TransX = 0.5 cm
+d:Ge/0.5_shallow/TransY = -0.86875  cm
+d:Ge/0.5_shallow/TransZ =  -12.75 mm
+
+#0.05% gold -- corresponds to label "7" in python object
+s:Ge/0.05_shallow/Type = "TsSphere"
+s:Ge/0.05_shallow/Parent = "DDC"
+s:Ge/0.05_shallow/Material = "gold_0005"
+s:Ge/0.05_shallow/color = "Purple" 
+d:Ge/0.05_shallow/RMax = 2 mm 
+d:Ge/0.05_shallow/TransX = 1.0 cm
+d:Ge/0.05_shallow/TransY = 0.  cm
+d:Ge/0.05_shallow/TransZ =  -12.75 mm
+
+#4% gold -- corresponds to label "2" in python object
+s:Ge/4_shallow2/Type = "TsSphere"
+s:Ge/4_shallow2/Parent = "DDC"
+s:Ge/4_shallow2/Material = "gold_04"
+s:Ge/4_shallow2/color = "Red" 
+d:Ge/4_shallow2/RMax = 2 mm 
+d:Ge/4_shallow2/TransX = 0.86875 cm
+d:Ge/4_shallow2/TransY = 0.5 cm
+d:Ge/4_shallow2/TransZ =  12.75 mm
+
+#2% gold -- corresponds to label "3" in python object
+s:Ge/2_shallow2/Type = "TsSphere"
+s:Ge/2_shallow2/Parent = "DDC"
+s:Ge/2_shallow2/Material = "gold_02"
+s:Ge/2_shallow2/color = "Orange" 
+d:Ge/2_shallow2/RMax = 2 mm 
+d:Ge/2_shallow2/TransX = 0. cm
+d:Ge/2_shallow2/TransY = 1.0 cm
+d:Ge/2_shallow2/TransZ =  12.75 mm
+
+#1.5% gold -- corresponds to label "4" in python object
+s:Ge/1.5_shallow2/Type = "TsSphere"
+s:Ge/1.5_shallow2/Parent = "DDC"
+s:Ge/1.5_shallow2/Material = "gold_015"
+s:Ge/1.5_shallow2/color = "Yellow" 
+d:Ge/1.5_shallow2/RMax = 2 mm 
+d:Ge/1.5_shallow2/TransX = -0.86875 cm
+d:Ge/1.5_shallow2/TransY = 0.5 cm
+d:Ge/1.5_shallow2/TransZ =  12.75 mm
+
+#1% gold -- corresponds to label "5" in python object
+s:Ge/1_shallow2/Type = "TsSphere"
+s:Ge/1_shallow2/Parent = "DDC"
+s:Ge/1_shallow2/Material = "gold_01"
+s:Ge/1_shallow2/color = "Green" 
+d:Ge/1_shallow2/RMax = 2 mm 
+d:Ge/1_shallow2/TransX = -0.86875 cm
+d:Ge/1_shallow2/TransY = -0.5  cm
+d:Ge/1_shallow2/TransZ =  12.75 mm
+
+#0.5% gold -- corresponds to label "6" in python object
+s:Ge/0.5_shallow2/Type = "TsSphere"
+s:Ge/0.5_shallow2/Parent = "DDC"
+s:Ge/0.5_shallow2/Material = "gold_005"
+s:Ge/0.5_shallow2/color = "Blue" 
+d:Ge/0.5_shallow2/RMax = 2 mm 
+d:Ge/0.5_shallow2/TransX = 0. cm
+d:Ge/0.5_shallow2/TransY = -1.0  cm
+d:Ge/0.5_shallow2/TransZ =  12.75 mm
+
+#0.05% gold -- corresponds to label "7" in python object
+s:Ge/0.05_shallow2/Type = "TsSphere"
+s:Ge/0.05_shallow2/Parent = "DDC"
+s:Ge/0.05_shallow2/Material = "gold_0005"
+s:Ge/0.05_shallow2/color = "Purple" 
+d:Ge/0.05_shallow2/RMax = 2 mm 
+d:Ge/0.05_shallow2/TransX = 0.86875 cm
+d:Ge/0.05_shallow2/TransY = -0.5  cm
+d:Ge/0.05_shallow2/TransZ =  12.75 mm
+
+
+
+
+
+
