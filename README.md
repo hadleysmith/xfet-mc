@@ -1,9 +1,9 @@
 # xfet-mc
-Monte Carlo XFET simulations and CNR analysis of numerical mouse phantom and contrast-depth phantom
+Monte Carlo XFET simulations and CNR analysis of numerical mouse phantom and contrast-depth phantom.
 
 This repository contains code for 1) generating data from XFET Monte Carlo (MC) simulations of both a numerical mouse phantom and contrast-depth phantom, and 2) analyzing CNR results.
 
-Due to large file sizes, data is available upon request. Please email hadleys@uchicago.edu, or contact the La Riviere lab group.
+Due to large file sizes, data is available upon request. Please email hadley.debrosse@osumc.edu or contact the La Riviere lab group.
 
 "simulations" contains code needed to perform TOPAS XFET MC simulations. More information about how to acquire and use TOPAS here: https://www.topasmc.org/
   
@@ -33,7 +33,7 @@ Due to large file sizes, data is available upon request. Please email hadleys@uc
           
           "XFET_combined.txt" : parameter file.
          
-          "poly120kVp_cutoff.txt" : truncated beam spectrum input file
+          "poly120kVp_cutoff.txt" : truncated beam spectrum input file.
           
           "poly120kVp.txt" : full beam spectrum input file.
          
